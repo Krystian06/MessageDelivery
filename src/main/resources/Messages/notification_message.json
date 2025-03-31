@@ -1,0 +1,5 @@
+{
+  "name": "push_notification",
+  "type": "notification",
+  "device_token": "abc123xyz456"
+}

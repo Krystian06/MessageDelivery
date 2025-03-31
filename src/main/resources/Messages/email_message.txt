@@ -1,0 +1,6 @@
+Cześć,
+
+To jest przykładowa wiadomość e-mail wysyłana z naszego systemu.
+
+Pozdrawiam,
+Zespół IT

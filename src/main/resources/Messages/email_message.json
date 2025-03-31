@@ -1,0 +1,8 @@
+{
+  "name": "email_message",
+  "type": "email",
+  "subject": "Przykładowy email",
+  "to": ["odbiorca@example.com"],
+  "cc": ["cc@example.com"],
+  "bcc": ["ukryty@example.com"]
+}
