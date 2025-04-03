@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 public class CommunicationEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String name;
@@ -21,6 +21,8 @@ public class CommunicationEntity {
     private long size;
     private CommunicationType type;
     private String status;
+
+    public CommunicationEntity(){}
 
     public CommunicationEntity(String name, String body, CommunicationType type, long size, String deliverySettings, String status) {
         this.name = name;

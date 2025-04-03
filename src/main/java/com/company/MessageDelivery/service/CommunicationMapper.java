@@ -114,7 +114,7 @@ public class CommunicationMapper {
                     emailEntity.getDeliverySettings(),
                     emailEntity.getStatus(),
                     emailEntity.getSubject(),
-                    emailEntity.getTo(),
+                    emailEntity.getRecipient(),
                     emailEntity.getCc(),
                     emailEntity.getBcc(),
                     null,

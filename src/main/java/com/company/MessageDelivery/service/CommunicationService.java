@@ -63,7 +63,7 @@ public class CommunicationService {
             }
 
             if (updatedCommunication.getTo() != null) {
-                emailEntity.setTo(updatedCommunication.getTo());
+                emailEntity.setRecipient(updatedCommunication.getTo());
             }
 
             if (updatedCommunication.getCc() != null) {

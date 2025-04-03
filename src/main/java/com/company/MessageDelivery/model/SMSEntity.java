@@ -12,6 +12,8 @@ public class SMSEntity extends CommunicationEntity {
 
     private String phoneNumber;
 
+    public SMSEntity(){}
+
     public SMSEntity(String name, String body, CommunicationType type, long size, String deliverySettings, String status, String phoneNumber) {
         super(name, body, type, size, deliverySettings, status);
         this.phoneNumber = phoneNumber;

@@ -17,6 +17,9 @@ import org.springframework.stereotype.Component;
 @Configuration
 public class ApplicationConfig {
 
+    @Value("${app.communication-path}")
+    private String COMMUNICATION_PATH;
+
     @Bean
     public ObjectMapper objectMapper() {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -26,7 +29,7 @@ public class ApplicationConfig {
     }
 
     @Bean
-    public FileRepository fileRepository(@Value("app.communication-path") String COMMUNICATION_PATH) {
+    public FileRepository fileRepository() {
         return new FileRepositoryHandler(COMMUNICATION_PATH);
     }
 
@@ -36,7 +39,7 @@ public class ApplicationConfig {
     }
 
     @Bean
-    public FileCommunicationRepository fileCommunicationRepository(@Value("app.communication-path") String COMMUNICATION_PATH, ObjectMapper objectMapper, CommunicationMapper communicationMapper, CommunicationRepository communicationRepository) {
+    public FileCommunicationRepository fileCommunicationRepository(ObjectMapper objectMapper, CommunicationMapper communicationMapper, CommunicationRepository communicationRepository) {
         return new FileCommunicationRepository(COMMUNICATION_PATH, objectMapper, communicationMapper, communicationRepository);
     }
 

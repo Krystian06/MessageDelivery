@@ -12,6 +12,8 @@ public class NotificationEntity extends CommunicationEntity {
 
     private String deviceToken;
 
+    public NotificationEntity(){}
+
     public NotificationEntity(String name, String body, CommunicationType type, long size, String deliverySettings, String status, String deviceToken) {
         super(name, body, type, size, deliverySettings, status);
         this.deviceToken = deviceToken;
