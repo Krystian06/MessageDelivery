@@ -9,10 +9,8 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
 
 @Configuration
 public class ApplicationConfig {
@@ -41,19 +39,5 @@ public class ApplicationConfig {
     @Bean
     public FileCommunicationRepository fileCommunicationRepository(ObjectMapper objectMapper, CommunicationMapper communicationMapper, CommunicationRepository communicationRepository) {
         return new FileCommunicationRepository(COMMUNICATION_PATH, objectMapper, communicationMapper, communicationRepository);
-    }
-
-    @Component
-    @ConfigurationProperties(prefix = "app")
-    public class CommunicationProperties {
-        private String communicationPath;
-
-        public String getCommunicationPath() {
-            return communicationPath;
-        }
-
-        public void setCommunicationPath(String communicationPath) {
-            this.communicationPath = communicationPath;
-        }
     }
 }

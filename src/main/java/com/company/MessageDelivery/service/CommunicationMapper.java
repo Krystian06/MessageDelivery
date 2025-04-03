@@ -21,51 +21,14 @@ public class CommunicationMapper {
 
         CommunicationEntity.CommunicationType type = CommunicationEntity.CommunicationType.valueOf(communicationType);
 
-        if (CommunicationEntity.CommunicationType.EMAIL.equals(type)) {
-            return new EmailEntity(
-                    readNameFile(txtPath),
-                    readTextFile(txtPath),
-                    type,
-                    readSizeFile(txtPath),
-                    null,
-                    CommunicationEntity.CommunicationStatus.NEW.name(),
-                    jsonNode.get("subject").asText(),
-                    jsonNode.get("to").asText(),
-                    jsonNode.get("cc").asText(),
-                    jsonNode.get("bcc").asText());
-
-        } else if (CommunicationEntity.CommunicationType.SMS.equals(type)) {
-            return new SMSEntity(
-                    readNameFile(txtPath),
-                    readTextFile(txtPath),
-                    type,
-                    readSizeFile(txtPath),
-                    null,
-                    CommunicationEntity.CommunicationStatus.NEW.name(),
-                    jsonNode.get("phone_number").asText());
-
-        } else if(CommunicationEntity.CommunicationType.WHATSAPP.equals(type)) {
-            return new WhatsAppEntity(
-                    readNameFile(txtPath),
-                    readTextFile(txtPath),
-                    type,
-                    readSizeFile(txtPath),
-                    null,
-                    CommunicationEntity.CommunicationStatus.NEW.name(),
-                    jsonNode.get("phone_number").asText());
-
-        } else if(CommunicationEntity.CommunicationType.NOTIFICATION.equals(type)) {
-            return new NotificationEntity(
-                    readNameFile(txtPath),
-                    readTextFile(txtPath),
-                    type,
-                    readSizeFile(txtPath),
-                    null,
-                    CommunicationEntity.CommunicationStatus.NEW.name(),
-                    jsonNode.get("device_token").asText());
-        }
-
-        return null;
+        return new CommunicationEntity(
+                readNameFile(txtPath),
+                readTextFile(txtPath),
+                type,
+                readSizeFile(txtPath),
+                jsonNode,
+                CommunicationEntity.CommunicationStatus.NEW.name()
+        );
     }
 
     private String readNameFile(Path txtFile) {
@@ -100,81 +63,14 @@ public class CommunicationMapper {
             return null;
         }
 
-        CommunicationEntity.CommunicationType communicationType = communicationEntity.getType();
-
-        if (CommunicationEntity.CommunicationType.EMAIL.equals(communicationType)) {
-
-            EmailEntity emailEntity = (EmailEntity) communicationEntity;
-            return new Communication(
-                    emailEntity.getId(),
-                    emailEntity.getName(),
-                    emailEntity.getBody(),
-                    emailEntity.getType().name(),
-                    emailEntity.getSize(),
-                    emailEntity.getDeliverySettings(),
-                    emailEntity.getStatus(),
-                    emailEntity.getSubject(),
-                    emailEntity.getRecipient(),
-                    emailEntity.getCc(),
-                    emailEntity.getBcc(),
-                    null,
-                    null
-            );
-
-        } else if (CommunicationEntity.CommunicationType.SMS.equals(communicationType)) {
-
-            SMSEntity smsEntity = (SMSEntity) communicationEntity;
-            return new Communication(
-                    smsEntity.getId(),
-                    smsEntity.getName(),
-                    smsEntity.getBody(),
-                    smsEntity.getType().name(),
-                    smsEntity.getSize(),
-                    smsEntity.getDeliverySettings(),
-                    smsEntity.getStatus(),
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    smsEntity.getPhoneNumber());
-
-        } else if (CommunicationEntity.CommunicationType.WHATSAPP.equals(communicationType)) {
-
-            WhatsAppEntity whatsAppEntity = (WhatsAppEntity) communicationEntity;
-            return new Communication(
-                    whatsAppEntity.getId(),
-                    whatsAppEntity.getName(),
-                    whatsAppEntity.getBody(),
-                    whatsAppEntity.getType().name(),
-                    whatsAppEntity.getSize(),
-                    whatsAppEntity.getDeliverySettings(),
-                    whatsAppEntity.getStatus(),
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    whatsAppEntity.getPhoneNumber());
-
-        } else if (CommunicationEntity.CommunicationType.NOTIFICATION.equals(communicationType)) {
-
-            NotificationEntity notificationEntity = (NotificationEntity) communicationEntity;
-            return new Communication(
-                    notificationEntity.getId(),
-                    notificationEntity.getName(),
-                    notificationEntity.getBody(),
-                    notificationEntity.getType().name(),
-                    notificationEntity.getSize(),
-                    notificationEntity.getDeliverySettings(),
-                    notificationEntity.getStatus(),
-                    null,
-                    null,
-                    null,
-                    null,
-                    notificationEntity.getDeviceToken(),
-                    null);
-        }
-        return null;
+        return new Communication(
+                communicationEntity.getId(),
+                communicationEntity.getName(),
+                communicationEntity.getBody(),
+                communicationEntity.getType().name(),
+                communicationEntity.getSize(),
+                communicationEntity.getDeliverySettings(),
+                communicationEntity.getStatus()
+        );
     }
 }

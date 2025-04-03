@@ -1,21 +1,16 @@
 package com.company.MessageDelivery.model;
 
-import jakarta.persistence.DiscriminatorValue;
-import jakarta.persistence.Entity;
+import com.fasterxml.jackson.databind.JsonNode;
 
-@Entity
-@DiscriminatorValue("EMAIL")
-public class EmailEntity extends CommunicationEntity {
+public class Email extends Communication {
 
     private String subject;
     private String recipient;
     private String cc;
     private String bcc;
 
-    public EmailEntity(){}
-
-    public EmailEntity(String name, String body, CommunicationType type, long size, String deliverySettings, String status, String subject, String recipient, String cc, String bcc) {
-        super(name, body, type, size, deliverySettings, status);
+    public Email(Long id, String name, String body, String communicationType, long size, JsonNode deliverySettings, String status, String subject, String recipient, String cc, String bcc) {
+        super(id, name, body, communicationType, size, deliverySettings, status);
         this.subject = subject;
         this.recipient = recipient;
         this.cc = cc;

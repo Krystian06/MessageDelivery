@@ -2,8 +2,8 @@ package com.company.MessageDelivery.exception;
 
 public class ErrorMessage {
 
-    private String message;
-    private int status;
+    private final String message;
+    private final int status;
 
     public ErrorMessage(String message, int status) {
         this.message = message;

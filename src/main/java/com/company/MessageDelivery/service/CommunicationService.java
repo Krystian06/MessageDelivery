@@ -1,10 +1,12 @@
 package com.company.MessageDelivery.service;
 
 import com.company.MessageDelivery.exception.NotFoundCommunicationException;
+import com.company.MessageDelivery.exception.NotFoundCommunicationTypeException;
 import com.company.MessageDelivery.model.*;
 import com.company.MessageDelivery.repository.CommunicationRepository;
 import com.company.MessageDelivery.repository.FileCommunicationRepository;
 import com.company.MessageDelivery.repository.directory.FileRepository;
+import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,7 +19,6 @@ public class CommunicationService {
     private final CommunicationMapper communicationMapper;
     private final FileRepository fileRepository;
     private final FileCommunicationRepository fileCommunicationRepository;
-    //I don't use MapStruct beacuse It's inefficient
 
 
     public CommunicationService(CommunicationRepository communicationRepository, CommunicationMapper communicationMapper, FileRepository fileRepository, FileCommunicationRepository fileCommunicationRepository) {
@@ -50,39 +51,20 @@ public class CommunicationService {
     private CommunicationEntity updateProcess(CommunicationEntity existingCommunicationEntity,
                                Communication updatedCommunication) {
 
-        existingCommunicationEntity.setBody(updatedCommunication.getBody());
+        JsonNode updateDeliverySettings = updatedCommunication.getDeliverySettings();
+        String type = updateDeliverySettings.get("type").asText();
 
-        if (existingCommunicationEntity instanceof SMSEntity smsEntity) {
-            if (updatedCommunication.getPhoneNumber() != null) {
-                smsEntity.setPhoneNumber(updatedCommunication.getPhoneNumber());
-            }
+        if(!CommunicationEntity.CommunicationType.containsEnum(type)) {
+            throw new NotFoundCommunicationTypeException("It's not possible to update " +
+                    "this type of communication");
+        }
 
-        } else if (existingCommunicationEntity instanceof EmailEntity emailEntity) {
-            if (updatedCommunication.getSubject() != null) {
-                emailEntity.setSubject(updatedCommunication.getSubject());
-            }
+        if (!existingCommunicationEntity.getBody().equals(updatedCommunication.getBody())) {
+            existingCommunicationEntity.setBody(updatedCommunication.getBody());
+        }
 
-            if (updatedCommunication.getTo() != null) {
-                emailEntity.setRecipient(updatedCommunication.getTo());
-            }
-
-            if (updatedCommunication.getCc() != null) {
-                emailEntity.setCc(updatedCommunication.getCc());
-            }
-
-            if (updatedCommunication.getBcc() != null) {
-                emailEntity.setBcc(updatedCommunication.getBcc());
-            }
-
-        } else if (existingCommunicationEntity instanceof WhatsAppEntity whatsAppEntity) {
-            if (whatsAppEntity.getPhoneNumber() != null) {
-                whatsAppEntity.setPhoneNumber(updatedCommunication.getPhoneNumber());
-            }
-
-        } else if (existingCommunicationEntity instanceof NotificationEntity notificationEntity) {
-            if (updatedCommunication.getDeviceToken() != null) {
-                notificationEntity.setDeviceToken(updatedCommunication.getDeviceToken());
-            }
+        if (!existingCommunicationEntity.getDeliverySettings().equals(updateDeliverySettings)) {
+            existingCommunicationEntity.setDeliverySettings(updateDeliverySettings);
         }
         return existingCommunicationEntity;
     }

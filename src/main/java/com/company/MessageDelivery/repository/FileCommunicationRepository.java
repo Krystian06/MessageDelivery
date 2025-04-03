@@ -33,7 +33,8 @@ public class FileCommunicationRepository {
         try(Stream<Path> files = Files.list(Paths.get(COMMUNICATION_PATH))) {
                 files
                         .filter(path -> !Files.isDirectory(path))
-                        .filter(path -> path.toString().endsWith(".json"))
+                        .filter(path -> path.toString().endsWith(".json")
+                                && path.toString().endsWith(".txt"))
                         .forEach(this::mapCommunication);
         } catch (IOException e) {
             throw new NotFoundDirectoryException("Not found main directory");

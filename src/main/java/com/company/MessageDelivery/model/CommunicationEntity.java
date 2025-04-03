@@ -1,30 +1,40 @@
 package com.company.MessageDelivery.model;
 
-import jakarta.persistence.*;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
+import jakarta.persistence.*;
+import org.hibernate.annotations.Type;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
+
 @Entity
 @Table(name = "Communication")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "communicationType", discriminatorType = DiscriminatorType.STRING)
+//@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+//@DiscriminatorColumn(name = "communicationType", discriminatorType = DiscriminatorType.STRING)
 public class CommunicationEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
     private String body;
-    private String deliverySettings;
+
+
+    @Type(JsonBinaryType.class)
+    @Column(columnDefinition = "TEXT")
+    private JsonNode deliverySettings;
+
     private long size;
+    @Enumerated(EnumType.STRING)
     private CommunicationType type;
     private String status;
 
     public CommunicationEntity(){}
 
-    public CommunicationEntity(String name, String body, CommunicationType type, long size, String deliverySettings, String status) {
+    public CommunicationEntity(String name, String body, CommunicationType type, long size, JsonNode deliverySettings, String status) {
         this.name = name;
         this.body = body;
         this.type = type;
@@ -69,11 +79,11 @@ public class CommunicationEntity {
         this.size = size;
     }
 
-    public String getDeliverySettings() {
+    public JsonNode getDeliverySettings() {
         return deliverySettings;
     }
 
-    public void setDeliverySettings(String deliverySettings) {
+    public void setDeliverySettings(JsonNode deliverySettings) {
         this.deliverySettings = deliverySettings;
     }
 
